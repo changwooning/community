@@ -44,6 +44,23 @@
      - 특정 게시글 조회 시 댓글 목록을 함께 조회힐 수 있다.
      - 댓글은 최신순으로 정렬되며, **paging 처리(5개 단위)** 로 한다.
      - 댓글 목록 조회 시 댓글 작성자, 댓글 내용, 댓글 작성일의 정보가 포함된다.
+    
+
+
+     ## ERD
+     ![ERD](./docs/community.png)
+
+     ## Trouble Shooting
+
+     ### Teck Stack
+     <div align=center> 
+        <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> 
+        <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> 
+        <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> 
+        <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
+      </div>
+
+
   
    
   
