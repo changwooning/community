@@ -11,7 +11,6 @@ import com.example.community.repository.UserRepository;
 import com.example.community.util.PasswordValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +23,19 @@ public class UserService {
     validateUserId(requestDto.getUserId());
     validateNickName(requestDto.getNickName());
     validatePassword(requestDto.getPassword());
+    // 아이디 중복검사
+    if (userRepository.findByUserId(requestDto.getUserId()).isPresent()) {
+      throw new IllegalArgumentException("이미 존재하는 아이디 입니다.");
+    }
+
+    // 닉네임 중복검사
+    if (userRepository.findByNickname(requestDto.getNickName()).isPresent()) {
+      throw new IllegalArgumentException("이미 존재하는 닉네임 입니다.");
+    }
+
+    if (!PasswordValidator.isValid(requestDto.getPassword())) {
+      throw new IllegalArgumentException("비밀번호는 10자리 이상, 영문+숫자 조합이여야 합니다.");
+    }
 
     User user = User.builder()
         .userId(requestDto.getUserId())
@@ -63,6 +75,5 @@ public class UserService {
       throw new InvalidPasswordException("비밀번호는 10자리 이상, 영문+숫자 조합이여야 합니다.");
     }
   }
-
 
 }
