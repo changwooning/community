@@ -41,6 +41,7 @@ public class User {
   // STRING -> 가독성 + enum 추가 시 안전성
   @Enumerated(EnumType.STRING)  // db에 enum의 문자열 (USER/ADMIN) 저장
   @Column(nullable = false, length = 20)
+  @Builder.Default
   private Role role = Role.USER;
 
   @CreationTimestamp // insert 시점에 자동으로 현재 시간 저장
