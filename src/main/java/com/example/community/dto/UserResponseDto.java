@@ -9,7 +9,7 @@ import lombok.Getter;
 public class UserResponseDto {
 
   private String userId;
-  private String nickname;
+  private String nickName;
   private LocalDateTime created_At;
 
 }

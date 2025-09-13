@@ -1,4 +1,10 @@
 package com.example.community.exception;
 
-public class DuplicateUserIdException {
+// UserId 중복 예외
+public class DuplicateUserIdException extends RuntimeException {
+
+  public DuplicateUserIdException(String message) {
+    super(message);
+  }
+
 }
