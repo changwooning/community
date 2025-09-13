@@ -35,8 +35,8 @@ public class User {
   @Column(nullable = false, length = 255)
   private String password;
 
-  @Column(unique = true, nullable = false, length = 30)
-  private String nickname;
+  @Column(unique = true, nullable = false, length = 6)
+  private String nickName;
 
   // STRING -> 가독성 + enum 추가 시 안전성
   @Enumerated(EnumType.STRING)  // db에 enum의 문자열 (USER/ADMIN) 저장

@@ -3,6 +3,7 @@ package com.example.community.controller;
 import com.example.community.dto.UserRequestDto;
 import com.example.community.dto.UserResponseDto;
 import com.example.community.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class UserController { // 지금 생각해 보니 동시에 회원가입�
 
   // requestDto, responseDto 로 분리하기 -> service 수정
   @PostMapping("/signup")
-  public ResponseEntity<UserResponseDto> signup(@RequestBody UserRequestDto userRequestDto) {
+  public ResponseEntity<UserResponseDto> signup(@Valid @RequestBody UserRequestDto userRequestDto) {
     UserResponseDto savedUser = userService.signup(userRequestDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
   }
