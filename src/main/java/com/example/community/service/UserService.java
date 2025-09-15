@@ -28,7 +28,7 @@ public class UserService {
     User user = User.builder()
         .userId(requestDto.getUserId())
         .password(requestDto.getPassword())
-        .nickName(requestDto.getPassword())
+        .nickName(requestDto.getNickName())
         .role(Role.USER)
         .build();
 
