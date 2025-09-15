@@ -24,7 +24,7 @@ public class UserRequestDto {
   private String password;
 
   @NotBlank(message = "닉네임은 필수 입력 값입니다.")
-  @Size(max = 6, message = "닉네임은 최대 30자까지 가능합니다.")
+  @Size(max = 10, message = "닉네임은 최대 10자까지 가능합니다.")
   private String nickName;
 
 
