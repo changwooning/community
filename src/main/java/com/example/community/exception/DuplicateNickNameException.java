@@ -1,9 +1,11 @@
 package com.example.community.exception;
 
-public class DuplicateNickNameException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class DuplicateNickNameException extends BusinessException {
 
   public DuplicateNickNameException(String message) {
-    super(message);
+    super(message, HttpStatus.CONFLICT); // 409
   }
 
 }

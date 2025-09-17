@@ -1,8 +1,12 @@
 package com.example.community.controller;
 
+import com.example.community.dto.LoginRequestDto;
+import com.example.community.dto.LoginResponseDto;
 import com.example.community.dto.UserRequestDto;
 import com.example.community.dto.UserResponseDto;
+import com.example.community.entity.User;
 import com.example.community.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,6 +28,21 @@ public class UserController { // 지금 생각해 보니 동시에 회원가입�
   public ResponseEntity<UserResponseDto> signup(@Valid @RequestBody UserRequestDto userRequestDto) {
     UserResponseDto savedUser = userService.signup(userRequestDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+  }
+
+  @PostMapping("/login")
+  public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto,
+      HttpSession session) {
+
+    // service 에서 dto 반환
+    LoginResponseDto response = userService.login(loginRequestDto);
+
+    // 세션 저장
+    session.setAttribute("loginUser", response.getId());
+
+    // 응답 반환
+    return ResponseEntity.ok(response);
+
   }
 
 
