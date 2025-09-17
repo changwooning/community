@@ -1,9 +1,11 @@
 package com.example.community.exception;
 
-public class InvalidPasswordException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class InvalidPasswordException extends BusinessException {
 
   public InvalidPasswordException(String message) {
-    super(message);
+    super(message, HttpStatus.BAD_REQUEST); // 400
   }
 
 }

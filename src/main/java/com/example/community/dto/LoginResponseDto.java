@@ -1,19 +1,17 @@
 package com.example.community.dto;
 
 import com.example.community.enums.Role;
-import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-@Getter
 @Builder
-public class UserResponseDto {
+@Getter
+public class LoginResponseDto {
 
+  private Long id;
   private String userId;
   private String nickName;
   private Role role;
-  private LocalDateTime created_At;
   private String message;
 
 }
