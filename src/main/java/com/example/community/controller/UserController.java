@@ -2,6 +2,7 @@ package com.example.community.controller;
 
 import com.example.community.dto.LoginRequestDto;
 import com.example.community.dto.LoginResponseDto;
+import com.example.community.dto.MyPageResponseDto;
 import com.example.community.dto.UserRequestDto;
 import com.example.community.dto.UserResponseDto;
 import com.example.community.entity.User;
@@ -9,8 +10,12 @@ import com.example.community.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +48,16 @@ public class UserController { // 지금 생각해 보니 동시에 회원가입�
     // 응답 반환
     return ResponseEntity.ok(response);
 
+  }
+
+  @GetMapping("/mypage")
+  public ResponseEntity<MyPageResponseDto> getMyPage(HttpSession session,
+      @PageableDefault(size = 5, sort = "createdAt", direction = Direction.DESC) Pageable pageable) {
+
+    Long userId = (Long) session.getAttribute("loginUser");
+
+    MyPageResponseDto response = userService.getMyPage(userId, pageable);
+    return ResponseEntity.ok(response);
   }
 
 
