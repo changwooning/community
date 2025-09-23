@@ -14,7 +14,7 @@ public class MyPageBoardDto {
 
   private Long boardId;
   private String title;
-  private LocalDateTime created_At;
+  private LocalDateTime createdAt;
   private int views;
   private String message;
 

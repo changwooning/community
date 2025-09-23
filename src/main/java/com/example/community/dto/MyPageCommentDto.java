@@ -15,7 +15,7 @@ public class MyPageCommentDto {
   private Long commentId;
   private String boardTitle;
   private String content;
-  private LocalDateTime created_At;
+  private LocalDateTime createdAt;
   private String message;
 
 

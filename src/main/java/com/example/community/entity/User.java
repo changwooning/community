@@ -46,11 +46,11 @@ public class User {
 
   @CreationTimestamp // insert 시점에 자동으로 현재 시간 저장
   @Column(nullable = false, updatable = false)
-  private LocalDateTime created_At;
+  private LocalDateTime createdAt;
 
   @UpdateTimestamp  // update 시점에 자동으로 현재 시간 갱신
   @Column(nullable = false)
-  private LocalDateTime updated_At;
+  private LocalDateTime updatedAt;
 
-  private LocalDateTime deleted_At; // 삭제용도 (굳이 이기도 하고,,)
+  private LocalDateTime deletedAt; // 삭제용도 (굳이 이기도 하고,,)
 }
