@@ -1,10 +1,10 @@
 package com.example.community.dto;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,8 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class MyPageResponseDto {
 
-  private String message; // 마이페이지 조회 성공 메시지
-  private List<MyPageBoardDto> boards;
-  private List<MyPageCommentDto> comments;
+  private Page<MyPageBoardDto> boards;
+  private Page<MyPageCommentDto> comments;
 
 }

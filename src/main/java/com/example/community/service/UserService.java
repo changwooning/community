@@ -56,7 +56,7 @@ public class UserService {
         .userId(savedUser.getUserId())
         .nickName(savedUser.getNickName())
         .role(savedUser.getRole())
-        .created_At(savedUser.getCreated_At())
+        .createdAt(savedUser.getCreatedAt())
         .message("회원가입 성공!")
         .build();
 
@@ -91,31 +91,25 @@ public class UserService {
     // 유저 존재 여부 검증 -> db와 세션 불일치 가능성 있기 때문
     User user = findUserById(userId);
 
-    Page<Board> boardPage = boardRepository.findByUser(user, pageable);
-    List<MyPageBoardDto> boardDtos = boardPage.stream()
+    Page<MyPageBoardDto> boardDtos = boardRepository.findByUser(user, pageable)
         .map(board -> MyPageBoardDto.builder()
             .boardId(board.getId())
             .title(board.getTitle())
             .views(board.getViews())
-            .created_At(board.getCreatedAt())
-            .build())
-        .toList();
+            .createdAt(board.getCreatedAt())
+            .build()
+        );
 
-    Page<Comment> commentPage = commentRepository.findByUser(user, pageable);
-    List<MyPageCommentDto> commentDtos = commentPage.stream()
+    Page<MyPageCommentDto> commentDtos = commentRepository.findByUser(user, pageable)
         .map(comment -> MyPageCommentDto.builder()
             .commentId(comment.getId())
             .boardTitle(comment.getBoard().getTitle())
             .content(comment.getContent())
-            .created_At(comment.getCreatedAt())
-            .build())
-        .toList();
-
-    String message =
-        (boardDtos.isEmpty() && commentDtos.isEmpty()) ? "작성한 글이나 댓글이 없습니다." : "마이페이지 조회 성공";
+            .createdAt(comment.getCreatedAt())
+            .build()
+        );
 
     return MyPageResponseDto.builder()
-        .message(message)
         .boards(boardDtos)
         .comments(commentDtos)
         .build();

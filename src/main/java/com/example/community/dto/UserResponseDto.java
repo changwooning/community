@@ -13,7 +13,7 @@ public class UserResponseDto {
   private String userId;
   private String nickName;
   private Role role;
-  private LocalDateTime created_At;
+  private LocalDateTime createdAt;
   private String message;
 
 }
