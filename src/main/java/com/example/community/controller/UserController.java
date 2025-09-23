@@ -50,6 +50,12 @@ public class UserController { // 지금 생각해 보니 동시에 회원가입�
 
   }
 
+  @PostMapping("/logout")
+  public ResponseEntity<String> logout(HttpSession session) {
+    session.invalidate(); // 세션 무효화
+    return ResponseEntity.ok("로그아웃 성공");
+  }
+
   @GetMapping("/mypage")
   public ResponseEntity<MyPageResponseDto> getMyPage(HttpSession session,
       @PageableDefault(size = 5, sort = "createdAt", direction = Direction.DESC) Pageable pageable) {
