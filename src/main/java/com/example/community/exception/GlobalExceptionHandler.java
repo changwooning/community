@@ -3,6 +3,7 @@ package com.example.community.exception;
 
 import com.example.community.dto.ErrorResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -30,6 +31,16 @@ public class GlobalExceptionHandler {
     ErrorResponse response = ErrorResponse.builder()
         .code("VALIDATION_ERROR")
         .message(errorMessage)
+        .build();
+
+    return ResponseEntity.badRequest().body(response);
+  }
+
+  @ExceptionHandler(HttpMessageNotReadableException.class)
+  public ResponseEntity<ErrorResponse> handleHttpMessageNotReadable(HttpMessageNotReadableException e){
+    ErrorResponse response = ErrorResponse.builder()
+        .code("INVALID_REQUEST")
+        .message("요청 본문이 비었습니다.")
         .build();
 
     return ResponseEntity.badRequest().body(response);
