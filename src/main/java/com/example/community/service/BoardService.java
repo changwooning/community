@@ -1,5 +1,6 @@
 package com.example.community.service;
 
+import com.example.community.dto.BoardDetailResponseDto;
 import com.example.community.dto.BoardListDto;
 import com.example.community.dto.BoardListResponseDto;
 import com.example.community.dto.BoardRequestDto;
@@ -7,6 +8,7 @@ import com.example.community.dto.BoardResponseDto;
 import com.example.community.entity.Board;
 import com.example.community.entity.User;
 import com.example.community.enums.SortType;
+import com.example.community.exception.BoardNotFoundException;
 import com.example.community.exception.InvalidBoardException;
 import com.example.community.exception.UserNotFoundException;
 import com.example.community.repository.BoardRepository;
@@ -18,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -76,6 +79,27 @@ public class BoardService {
 
     return new BoardListResponseDto(dtoPage);
 
+  }
+
+  @Transactional
+  public BoardDetailResponseDto getBoardDetail(Long boardId){
+    // 1. 게시글 조회 (비관적 락 적용하기)
+    Board board = boardRepository.findByIdWithLock(boardId)
+        .orElseThrow(() -> new BoardNotFoundException("해당 게시글이 존재하지 않습니다."));
+
+    // 2. 조회수 증가
+    board.increaseViews();
+
+    // 3. Dto 변환 후 반환
+    return BoardDetailResponseDto.builder()
+        .id(board.getId())
+        .title(board.getTitle())
+        .content(board.getContent())
+        .nickName(board.getUser().getNickName())
+        .views(board.getViews())
+        .createdAt(board.getCreatedAt())
+        .updatedAt(board.getUpdatedAt())
+        .build();
   }
 
   private void validateBoard(BoardRequestDto requestDto) {
