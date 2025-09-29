@@ -59,5 +59,9 @@ public class Board {
   @Builder.Default
   private List<Comment> comments = new ArrayList<>();
 
+  public void increaseViews(){
+    this.views += 1;
+  }
+
 
 }

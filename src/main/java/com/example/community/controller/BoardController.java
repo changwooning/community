@@ -1,5 +1,6 @@
 package com.example.community.controller;
 
+import com.example.community.dto.BoardDetailResponseDto;
 import com.example.community.dto.BoardListResponseDto;
 import com.example.community.dto.BoardRequestDto;
 import com.example.community.dto.BoardResponseDto;
@@ -15,6 +16,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,6 +52,15 @@ public class BoardController {
 
     BoardListResponseDto response = boardService.getBoardList(pageable, sortBy);
     return ResponseEntity.ok(response);
+  }
+
+  @GetMapping("/{boardId}")
+  public ResponseEntity<BoardDetailResponseDto> getBoardDetail(@PathVariable Long boardId){
+
+    BoardDetailResponseDto response = boardService.getBoardDetail(boardId);
+
+    return ResponseEntity.ok(response);
+
   }
 
 
