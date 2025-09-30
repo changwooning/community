@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,5 +20,8 @@ public class BoardDetailResponseDto {
   private int views;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
+
+  // 댓글 계층 구조 추가
+  private Page<CommentResponseDto> comments;
 
 }

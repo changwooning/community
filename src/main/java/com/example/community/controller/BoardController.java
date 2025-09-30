@@ -55,9 +55,10 @@ public class BoardController {
   }
 
   @GetMapping("/{boardId}")
-  public ResponseEntity<BoardDetailResponseDto> getBoardDetail(@PathVariable Long boardId){
+  public ResponseEntity<BoardDetailResponseDto> getBoardDetail(@PathVariable Long boardId,
+      @PageableDefault(size = 5, sort = "createdAt", direction = Direction.DESC) Pageable pageable){
 
-    BoardDetailResponseDto response = boardService.getBoardDetail(boardId);
+    BoardDetailResponseDto response = boardService.getBoardDetail(boardId,pageable);
 
     return ResponseEntity.ok(response);
 
