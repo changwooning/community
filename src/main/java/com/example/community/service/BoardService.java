@@ -5,6 +5,7 @@ import com.example.community.dto.BoardListDto;
 import com.example.community.dto.BoardListResponseDto;
 import com.example.community.dto.BoardRequestDto;
 import com.example.community.dto.BoardResponseDto;
+import com.example.community.dto.CommentResponseDto;
 import com.example.community.entity.Board;
 import com.example.community.entity.User;
 import com.example.community.enums.SortType;
@@ -28,6 +29,8 @@ public class BoardService {
 
   private final UserRepository userRepository;
   private final BoardRepository boardRepository;
+  private final CommentService commentService;
+
 
   // 게시글 작성
   public BoardResponseDto createBoard(Long userId, BoardRequestDto requestDto) {
@@ -82,13 +85,16 @@ public class BoardService {
   }
 
   @Transactional
-  public BoardDetailResponseDto getBoardDetail(Long boardId){
+  public BoardDetailResponseDto getBoardDetail(Long boardId, Pageable pageable){
     // 1. 게시글 조회 (비관적 락 적용하기)
     Board board = boardRepository.findByIdWithLock(boardId)
         .orElseThrow(() -> new BoardNotFoundException("해당 게시글이 존재하지 않습니다."));
 
     // 2. 조회수 증가
     board.increaseViews();
+
+    Page<CommentResponseDto> comments = commentService.getComments(boardId,pageable);
+
 
     // 3. Dto 변환 후 반환
     return BoardDetailResponseDto.builder()
@@ -99,6 +105,7 @@ public class BoardService {
         .views(board.getViews())
         .createdAt(board.getCreatedAt())
         .updatedAt(board.getUpdatedAt())
+        .comments(comments)
         .build();
   }
 
