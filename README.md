@@ -1,6 +1,8 @@
 # 🗓️ 게시판 만들기
 
-  간단하게 사용자들과 소통할 수 있는 게시판 서비스입니다.
+  간단하게 사용자들과 소통할 수 있는 게시판 서비스입니다.<br>
+  세션 기반 인증에서 JWT + Redis 기반으로 확장하여 보안성과 확장성을 고려했습니다.<br>
+  또한 DB 인덱스 설계를 적용하여 대용량 데이터 환경에서도 효율적인 검색 성능을 유지할 수 있도록 했습니다.
 
 ## 프로젝트 기능 및 설계
  1. 회원가입 기능
@@ -12,21 +14,24 @@
    
   2. 로그인/로그아웃 기능
      - 사용자는 로그인을 할 수 있다.
-     - 로그인 시 회원가입 때 사용한 아이디와 비밀번호가 일치해야 한다.
-     - 로그아웃 시 세션이 종료된다.
+       - JWT 기반 로그인
+         - 로그인 성공 시 Access Token + Refresh Token 발급
+         - Refresh Token은 Redis에 저장하여 관리 (재발급 시 사용)
+       - 로그아웃 시 Redis 에서 Refresh Token 제거 -> 재사용 방지
     
   3. 마이페이지 기능
-     - 사용자는 마이페이지에서 자신이 작성한 게시글과 댓글을 확인할 수 있다.
+     - 사용자는 마이페이지에서 자신이 작성한 게시글과 댓글을 조회할 수 있다.
      - 게시글/댓글이 많을 수 있으므로 **페이징 처리(5개 단위)** 를 적용한다.
      - 정렬은 최신순으로 제공한다.
+     - JWT 인증 기반 -> 본인 데이터만 접근 가능
     
   4. 게시글 작성 기능
-     - 로그인한 사용자는 누구나 글을 작성할 수 있다.
-     - 사용자는 게시글 제목, 게시글 내용을 작성할 수 있다.
+     - 로그인한 사용자는 누구나 글을 작성할 수 있다. (게시글 제목, 내용)
+     - 제목과 내용 필수 입력 (Validation + 예외 처리)
 
   5. 게시글 목록 조회 기능
      - 로그인하지 않은 사용자를 포함한 모든 사용자는 게시글 목록을 조회할 수 있다.
-     - 게시글은 최신순으로 기본 정렬되며, 조회순 정렬도 가능하다.
+     - 기본 정렬 : 최신순 / 조회순 (Enum SortType 으로 관리)
      - 게시글은 **paging 처리(5개 단위)** 를 한다.
      - 게시글 목록 조회 시에는 게시글 제목, 작성자, 작성일, 조회수의 정보가 포함된다.
     
@@ -38,12 +43,12 @@
     
   7. 댓글 작성 기능
      - 로그인한 사용자는 댓글을 작성할 수 있다.
-     - 사용자는 댓글 내용을 작성할 수 있다.
-     - 댓글은 특정 게시글에 연결된다.
-     - 댓글에는 대댓글을 작성할 수 있으며, 대댓글은 최대 10개까지만 작성할 수 있다.
+     - 특정 게시글 조회 시 댓글도 함께 조회 (페이징 처리)
+     - 대댓글 작성 가능 (최대 10개 제한)
+     - 별도의 댓글 조회 API 제공
     
   8. 댓글 목록 조회 기능
-     - 특정 게시글 조회 시 댓글 목록을 함께 조회힐 수 있다.
+     - 특정 게시글 조회 시 댓글 목록을 함께 조회할 수 있다.
      - 댓글은 최신순으로 정렬되며, **paging 처리(5개 단위)** 로 한다.
      - 댓글 목록 조회 시 댓글 작성자, 댓글 내용, 댓글 작성일의 정보가 포함된다.
     
@@ -54,13 +59,19 @@
 
      ## Trouble Shooting
 
-     ### Teck Stack
-     <div align=center> 
-        <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> 
-        <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> 
-        <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> 
-        <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
-      </div>
+     ⚙️ 기술 스택 Teck Stack
+     - Backend : Java 17 , Spring Boot 3.x
+     - DB : MariaDB (MySQL 호환)
+     - ORM : Spring Data JPA, Hibernate
+     - Authentication : JWT + Redis (토큰 관리)
+     - Build Tool : Gradle
+     - Infra : Docker (MariaDB, Redis)
+
+     🚀 성능 최적화 (Index 설계)
+     - 데이터가 많아질수록 조건 검색 성능이 저하되므로 인덱스 설계 적용
+     - 적용 대상 :
+          - 게시글 목록 정렬 : createdAt, views
+          - 특정 게시글 검색 : title, nickName
 
 
   
