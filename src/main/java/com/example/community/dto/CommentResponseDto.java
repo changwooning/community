@@ -24,6 +24,7 @@ public class CommentResponseDto {
   @Builder.Default
   private List<CommentResponseDto> children = new ArrayList<>();
 
+  // entity -> dto 변환
   public static CommentResponseDto from(Comment comment) {
 
     return CommentResponseDto.builder()

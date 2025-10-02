@@ -7,8 +7,6 @@ import com.example.community.dto.MyPageCommentDto;
 import com.example.community.dto.MyPageResponseDto;
 import com.example.community.dto.UserRequestDto;
 import com.example.community.dto.UserResponseDto;
-import com.example.community.entity.Board;
-import com.example.community.entity.Comment;
 import com.example.community.entity.User;
 import com.example.community.enums.Role;
 import com.example.community.exception.DuplicateNickNameException;

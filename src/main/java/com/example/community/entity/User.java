@@ -8,6 +8,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;   // 의존성 변경
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,13 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Table(name = "user")
+@Table(
+    name = "user",
+    indexes = {
+        // 닉네임으로 특정 게시글 검색할 때 성능 최적화
+        @Index(name = "idx_user_nickname", columnList = "nickName")
+    }
+)
 @Builder  // 빌더 이용
 @Getter
 @NoArgsConstructor
@@ -29,7 +36,7 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(unique = true,nullable = false, length = 50)
+  @Column(unique = true, nullable = false, length = 50)
   private String userId;
 
   @Column(nullable = false, length = 255)

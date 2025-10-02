@@ -7,6 +7,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -21,7 +22,15 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
-@Table(name = "comment")
+@Table(
+    name = "comment",
+    indexes = {
+        // 특정 게시글 댓글 조회 시 성능 최적화
+        @Index(name = "idx_comment_board_id", columnList = "board_id"),
+        // 대댓글 트리 탐색 성능 최적화
+        @Index(name = "idx_comment_parent_id", columnList = "parent_id")
+    }
+)
 @Builder
 @Getter
 @AllArgsConstructor
