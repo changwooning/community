@@ -5,11 +5,11 @@ import com.example.community.dto.BoardListResponseDto;
 import com.example.community.dto.BoardRequestDto;
 import com.example.community.dto.BoardResponseDto;
 import com.example.community.enums.SortType;
-import com.example.community.exception.InvalidBoardException;
 import com.example.community.service.BoardService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
@@ -46,19 +46,18 @@ public class BoardController {
   }
 
   @GetMapping("/listAll")
-  public ResponseEntity<BoardListResponseDto> getBoardList(
+  public ResponseEntity<Page<BoardListResponseDto>> getBoardList(
       @PageableDefault(size = 5, sort = "createdAt", direction = Direction.DESC) Pageable pageable,
       @RequestParam(defaultValue = "CREATED_AT") SortType sortBy) {
 
-    BoardListResponseDto response = boardService.getBoardList(pageable, sortBy);
-    return ResponseEntity.ok(response);
+    return ResponseEntity.ok(boardService.getBoardList(pageable, sortBy));
   }
 
   @GetMapping("/{boardId}")
   public ResponseEntity<BoardDetailResponseDto> getBoardDetail(@PathVariable Long boardId,
-      @PageableDefault(size = 5, sort = "createdAt", direction = Direction.DESC) Pageable pageable){
+      @PageableDefault(size = 5, sort = "createdAt", direction = Direction.DESC) Pageable pageable) {
 
-    BoardDetailResponseDto response = boardService.getBoardDetail(boardId,pageable);
+    BoardDetailResponseDto response = boardService.getBoardDetail(boardId, pageable);
 
     return ResponseEntity.ok(response);
 

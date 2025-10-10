@@ -1,7 +1,6 @@
 package com.example.community.service;
 
 import com.example.community.dto.BoardDetailResponseDto;
-import com.example.community.dto.BoardListDto;
 import com.example.community.dto.BoardListResponseDto;
 import com.example.community.dto.BoardRequestDto;
 import com.example.community.dto.BoardResponseDto;
@@ -60,7 +59,8 @@ public class BoardService {
         .build();
   }
 
-  public BoardListResponseDto getBoardList(Pageable pageable, SortType sortBy) {
+  // 게시글 목록 조회
+  public Page<BoardListResponseDto> getBoardList(Pageable pageable, SortType sortBy) {
 
     PageRequest pageRequest = PageRequest.of(
         pageable.getPageNumber(),
@@ -68,24 +68,12 @@ public class BoardService {
         Sort.by(Direction.DESC, sortBy.getField())
     );
 
-    Page<Board> boardPage = boardRepository.findAll(pageRequest);
-
-    Page<BoardListDto> dtoPage = boardPage.map(board ->
-        BoardListDto.builder()
-            .id(board.getId())
-            .title(board.getTitle())
-            .nickName(board.getUser().getNickName())
-            .views(board.getViews())
-            .createdAt(board.getCreatedAt())
-            .build()
-    );
-
-    return new BoardListResponseDto(dtoPage);
-
+    return boardRepository.findAll(pageRequest).map(BoardListResponseDto::from);
   }
 
+  // 특정 게시글 조회
   @Transactional
-  public BoardDetailResponseDto getBoardDetail(Long boardId, Pageable pageable){
+  public BoardDetailResponseDto getBoardDetail(Long boardId, Pageable pageable) {
     // 1. 게시글 조회 (비관적 락 적용하기)
     Board board = boardRepository.findByIdWithLock(boardId)
         .orElseThrow(() -> new BoardNotFoundException("해당 게시글이 존재하지 않습니다."));
@@ -93,20 +81,11 @@ public class BoardService {
     // 2. 조회수 증가
     board.increaseViews();
 
-    Page<CommentResponseDto> comments = commentService.getComments(boardId,pageable);
+    // 댓글도 함께 조회 (트리구조 + 페이징)
+    Page<CommentResponseDto> comments = commentService.getComments(boardId, pageable);
 
+    return BoardDetailResponseDto.from(board, comments);
 
-    // 3. Dto 변환 후 반환
-    return BoardDetailResponseDto.builder()
-        .id(board.getId())
-        .title(board.getTitle())
-        .content(board.getContent())
-        .nickName(board.getUser().getNickName())
-        .views(board.getViews())
-        .createdAt(board.getCreatedAt())
-        .updatedAt(board.getUpdatedAt())
-        .comments(comments)
-        .build();
   }
 
   private void validateBoard(BoardRequestDto requestDto) {
