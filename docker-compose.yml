@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  community-db:
+    image: mariadb:10.11
+    container_name: community-db
+    restart: always
+    environment:
+      MARIADB_DATABASE: community
+      MARIADB_USER: changwoo
+      MARIADB_PASSWORD: changwoo1234
+      MARIADB_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  community-app:
+    build: .
+    container_name: community-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      community-db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker

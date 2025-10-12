@@ -25,8 +25,17 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
   Optional<Board> findByIdWithLock(@Param("boardId") Long boardId);
 
   // 특정 게시글 제목 검색 (인덱스 : idx_board_title 활용)
-  Page<Board> findByTitleContaining(String keyword, Pageable pageable);
+//  Page<Board> findByTitleContaining(String keyword, Pageable pageable);
 
   // 특정 게시글 작성자 닉네임 검색 (인덱스 : idx_user_nickname 활용)
   Page<Board> findByUserNickName(String nickName, Pageable pageable);
+
+  // 1. LIKE '%keyword%'
+  Page<Board> findByTitleContaining(String keyword, Pageable pageable);
+
+  // 2. LIKE 'keyword%'
+  Page<Board> findByTitleStartingWith(String keyword, Pageable pageable);
+
+  Page<Board> findAllByOrderByViewsDesc(Pageable pageable);
+
 }

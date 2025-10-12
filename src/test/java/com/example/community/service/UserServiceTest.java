@@ -39,13 +39,13 @@ class UserServiceTest {
     UserRequestDto request = new UserRequestDto("changwoo", "qwert12345", "changwooning");
 
     given(userRepository.findByUserId("changwoo1")).willReturn(Optional.empty());
-    given(userRepository.findByNickname("changwooning")).willReturn(Optional.empty());
+    given(userRepository.findByNickName("changwooning")).willReturn(Optional.empty());
 
     User mockUser = User.builder()
         .id(1L)
         .userId(request.getUserId())
         .password(request.getPassword())
-        .nickname(request.getNickname())
+        .nickName(request.getNickName())
         .role(Role.USER)
         .build();
 
@@ -56,7 +56,7 @@ class UserServiceTest {
 
     // then
     assertThat(response.getUserId()).isEqualTo("changwoo");
-    assertThat(response.getNickname()).isEqualTo("changwooning");
+    assertThat(response.getNickName()).isEqualTo("changwooning");
 
   }
 

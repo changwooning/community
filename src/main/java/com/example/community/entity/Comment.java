@@ -23,13 +23,14 @@ import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(
-    name = "comment",
-    indexes = {
-        // 특정 게시글 댓글 조회 시 성능 최적화
-        @Index(name = "idx_comment_board_id", columnList = "board_id"),
-        // 대댓글 트리 탐색 성능 최적화
-        @Index(name = "idx_comment_parent_id", columnList = "parent_id")
-    }
+    name = "comment"
+//    ,
+//    indexes = {
+//        // 특정 게시글 댓글 조회 시 성능 최적화
+//        @Index(name = "idx_comment_board_id", columnList = "board_id"),
+//        // 대댓글 트리 탐색 성능 최적화
+//        @Index(name = "idx_comment_parent_id", columnList = "parent_id")
+//    }
 )
 @Builder
 @Getter

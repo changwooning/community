@@ -24,15 +24,16 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(
-    name = "board",
-    indexes = {
-        // 게시글 목록 조회에서 최신순, 조회순 정렬 성능 개선
-        @Index(name = "idx_board_created_at", columnList = "createdAt"),
-        @Index(name = "idx_board_views", columnList = "views"),
-
-        // 게시글 제목 검색 최적화
-        @Index(name = "idx_board_title", columnList = "title")
-    }
+    name = "board"
+//    ,
+//    indexes = {
+//        // 게시글 목록 조회에서 최신순, 조회순 정렬 성능 개선
+//        @Index(name = "idx_board_created_at", columnList = "createdAt"),
+//        @Index(name = "idx_board_views", columnList = "views"),
+//
+//        // 게시글 제목 검색 최적화
+//        @Index(name = "idx_board_title", columnList = "title")
+//    }
 )
 @Getter
 @Builder

@@ -20,11 +20,12 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(
-    name = "user",
-    indexes = {
-        // 닉네임으로 특정 게시글 검색할 때 성능 최적화
-        @Index(name = "idx_user_nickname", columnList = "nickName")
-    }
+    name = "user"
+//    ,
+//    indexes = {
+//        // 닉네임으로 특정 게시글 검색할 때 성능 최적화
+//        @Index(name = "idx_user_nickname", columnList = "nickName")
+//    }
 )
 @Builder  // 빌더 이용
 @Getter
