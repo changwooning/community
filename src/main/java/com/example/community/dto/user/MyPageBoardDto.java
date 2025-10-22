@@ -1,4 +1,4 @@
-package com.example.community.dto;
+package com.example.community.dto.user;
 
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MyPageCommentDto {
+public class MyPageBoardDto {
 
-  private Long commentId;
-  private String boardTitle;
-  private String content;
+  private Long boardId;
+  private String title;
   private LocalDateTime createdAt;
+  private int views;
   private String message;
 
 

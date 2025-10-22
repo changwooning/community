@@ -1,10 +1,10 @@
 package com.example.community.service;
 
-import com.example.community.dto.BoardDetailResponseDto;
-import com.example.community.dto.BoardListResponseDto;
-import com.example.community.dto.BoardRequestDto;
-import com.example.community.dto.BoardResponseDto;
-import com.example.community.dto.CommentResponseDto;
+import com.example.community.dto.board.BoardDetailResponseDto;
+import com.example.community.dto.board.BoardListResponseDto;
+import com.example.community.dto.board.BoardRequestDto;
+import com.example.community.dto.board.BoardResponseDto;
+import com.example.community.dto.comment.CommentResponseDto;
 import com.example.community.entity.Board;
 import com.example.community.entity.User;
 import com.example.community.enums.SortType;

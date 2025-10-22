@@ -1,4 +1,4 @@
-package com.example.community.dto;
+package com.example.community.dto.auth;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

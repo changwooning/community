@@ -1,5 +1,6 @@
-package com.example.community.dto;
+package com.example.community.dto.board;
 
+import com.example.community.dto.comment.CommentResponseDto;
 import com.example.community.entity.Board;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -7,7 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 @AllArgsConstructor
 @NoArgsConstructor

@@ -1,7 +1,7 @@
 package com.example.community.exception;
 
 
-import com.example.community.dto.ErrorResponse;
+import com.example.community.dto.common.ErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(e.getStatus()).body(response);
   }
 
-  // Dto 유효성 검증 실패 처리
+  // DTO 유효성 검증 실패 처리
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<ErrorResponse> handleValidationException(
       MethodArgumentNotValidException e) {
@@ -36,6 +36,7 @@ public class GlobalExceptionHandler {
     return ResponseEntity.badRequest().body(response);
   }
 
+  // 요청 본문이 비었거나 JSON 파싱 실패
   @ExceptionHandler(HttpMessageNotReadableException.class)
   public ResponseEntity<ErrorResponse> handleHttpMessageNotReadable(HttpMessageNotReadableException e){
     ErrorResponse response = ErrorResponse.builder()

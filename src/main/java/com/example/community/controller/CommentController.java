@@ -1,7 +1,7 @@
 package com.example.community.controller;
 
-import com.example.community.dto.CommentRequestDto;
-import com.example.community.dto.CommentResponseDto;
+import com.example.community.dto.comment.CommentRequestDto;
+import com.example.community.dto.comment.CommentResponseDto;
 import com.example.community.exception.UnauthorizedAccessException;
 import com.example.community.service.CommentService;
 import jakarta.servlet.http.HttpSession;

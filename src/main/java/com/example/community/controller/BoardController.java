@@ -1,9 +1,9 @@
 package com.example.community.controller;
 
-import com.example.community.dto.BoardDetailResponseDto;
-import com.example.community.dto.BoardListResponseDto;
-import com.example.community.dto.BoardRequestDto;
-import com.example.community.dto.BoardResponseDto;
+import com.example.community.dto.board.BoardDetailResponseDto;
+import com.example.community.dto.board.BoardListResponseDto;
+import com.example.community.dto.board.BoardRequestDto;
+import com.example.community.dto.board.BoardResponseDto;
 import com.example.community.enums.SortType;
 import com.example.community.service.BoardService;
 import jakarta.servlet.http.HttpSession;
