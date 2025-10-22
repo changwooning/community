@@ -1,4 +1,4 @@
-package com.example.community.dto;
+package com.example.community.dto.board;
 
 import com.example.community.entity.Board;
 import java.time.LocalDateTime;

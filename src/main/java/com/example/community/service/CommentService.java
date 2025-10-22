@@ -1,7 +1,7 @@
 package com.example.community.service;
 
-import com.example.community.dto.CommentRequestDto;
-import com.example.community.dto.CommentResponseDto;
+import com.example.community.dto.comment.CommentRequestDto;
+import com.example.community.dto.comment.CommentResponseDto;
 import com.example.community.entity.Board;
 import com.example.community.entity.Comment;
 import com.example.community.entity.User;

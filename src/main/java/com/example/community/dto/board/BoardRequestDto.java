@@ -1,4 +1,4 @@
-package com.example.community.dto;
+package com.example.community.dto.board;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-import com.example.community.dto.UserRequestDto;
-import com.example.community.dto.UserResponseDto;
+import com.example.community.dto.user.UserRequestDto;
+import com.example.community.dto.user.UserResponseDto;
 import com.example.community.entity.User;
 import com.example.community.enums.Role;
 import com.example.community.repository.UserRepository;

@@ -1,8 +1,7 @@
-package com.example.community.dto;
+package com.example.community.dto.user;
 
 import com.example.community.enums.Role;
 import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 

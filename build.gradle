@@ -29,8 +29,19 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-	// ✅ MariaDB 드라이버 추가
+	// redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	// MariaDB 드라이버 추가
 	implementation 'org.mariadb.jdbc:mariadb-java-client:3.3.3'
+
+	// security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// Jwt 처리용 라이브러리
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
