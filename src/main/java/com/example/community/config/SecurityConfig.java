@@ -33,6 +33,8 @@ public class SecurityConfig {
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/auth/**", "/users/signup").permitAll() // 인증 없이 접근 가능
+            // 게시글/댓글 조회도 허용
+            .requestMatchers("/boards/**", "/comments/**").permitAll()
             .anyRequest().authenticated() // 그 외는 JWT 인증 필요
         )
         .addFilterBefore(jwtAuthenticationFilter,
