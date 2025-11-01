@@ -83,7 +83,7 @@ public class AuthController {
     String savedRefreshToken = tokenBlacklistService.getRefreshToken(userPk);
 
     // Redis에 RefreshToken이 존재하지 않거나 불일치하면 예외 발생
-    if (savedRefreshToken == null || savedRefreshToken.equals(oldRefreshToken)) {
+    if (savedRefreshToken == null || !savedRefreshToken.equals(oldRefreshToken)) {
       throw new InvalidRefreshTokenException("유효하지 않은 RefreshToken 입니다.");
     }
 
