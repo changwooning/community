@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TokenBlacklistService {
 
-  private final RedisTemplate<String, Object> redisTemplate;
+  private final RedisTemplate<String, String> redisTemplate;
 
   // 로그아웃 시 AccessToken 블랙리스트 등록
   // TTL (Time To Live)은 토큰의 남은 만료 시간만큼 지정
@@ -22,7 +22,7 @@ public class TokenBlacklistService {
 
   // AccessToken이 블랙리스트에 등록되었는지 확인
   public boolean isBlacklisted(String token) {
-    return redisTemplate.hasKey(token);
+    return redisTemplate.hasKey("BL: " + token);
   }
 
   // RefreshToken 저장 (PK 기준)

@@ -1,7 +1,10 @@
 package com.example.community.exception;
 
-public class CacheDeserializeException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class CacheDeserializeException extends  BusinessException {
+
   public CacheDeserializeException(String message) {
-    super(message);
+    super(message, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }
