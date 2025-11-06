@@ -3,6 +3,7 @@ package com.example.community.controller;
 import com.example.community.dto.comment.CommentRequestDto;
 import com.example.community.dto.comment.CommentResponseDto;
 import com.example.community.exception.UnauthorizedAccessException;
+import com.example.community.jwt.JwtUserAuthentication;
 import com.example.community.service.CommentService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,13 +33,16 @@ public class CommentController {
   // 댓글 작성
   @PostMapping
   public ResponseEntity<CommentResponseDto> createdComment(@PathVariable Long boardId,
-      @Valid @RequestBody CommentRequestDto requestDto,
-      HttpSession session) {
+      @Valid @RequestBody CommentRequestDto requestDto) {
 
-    Long userId = (Long) session.getAttribute("loginUser");
-    if (userId == null) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+    if(authentication == null || !(authentication instanceof JwtUserAuthentication)){
       throw new UnauthorizedAccessException("로그인이 필요한 서비스 입니다.");
     }
+
+    JwtUserAuthentication jwtUserAuthentication = (JwtUserAuthentication) authentication;
+    Long userId = jwtUserAuthentication.getUserPk();
 
     CommentResponseDto response = commentService.createdComment(boardId, userId, requestDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
