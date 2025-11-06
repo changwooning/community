@@ -5,6 +5,7 @@ import com.example.community.dto.board.BoardListResponseDto;
 import com.example.community.dto.board.BoardRequestDto;
 import com.example.community.dto.board.BoardResponseDto;
 import com.example.community.enums.SortType;
+import com.example.community.jwt.JwtUserAuthentication;
 import com.example.community.service.BoardService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -15,6 +16,8 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,14 +35,16 @@ public class BoardController {
 
   @PostMapping("/post")
   public ResponseEntity<BoardResponseDto> createdBoard(
-      @Valid @RequestBody BoardRequestDto requestDto,
-      HttpSession session) {
+      @Valid @RequestBody BoardRequestDto requestDto) {
 
-    Long userId = (Long) session.getAttribute("loginUser");
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-    if (userId == null) {
+    if (authentication == null || !(authentication instanceof JwtUserAuthentication)) {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
+
+    JwtUserAuthentication jwtUserAuthentication = (JwtUserAuthentication) authentication;
+    Long userId = jwtUserAuthentication.getUserPk();
 
     BoardResponseDto response = boardService.createBoard(userId, requestDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
