@@ -1,7 +1,12 @@
-# FROM openjdk:17-jdk-slim
-FROM eclipse-temurin:17-jdk
+# ---- build stage ----
+FROM eclipse-temurin:17-jdk AS builder
 WORKDIR /app
+COPY . .
+RUN ./gradlew clean bootJar -x test
 
-COPY build/libs/*.jar app.jar
-
+# ---- run stage ----
+FROM eclipse-temurin:17-jre
+WORKDIR /app
+COPY --from=builder /app/build/libs/*.jar app.jar
+EXPOSE 8080
 ENTRYPOINT ["java","-jar","/app/app.jar"]
