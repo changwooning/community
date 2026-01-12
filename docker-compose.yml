@@ -5,13 +5,13 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD: root
       MARIADB_DATABASE: community
-      MARIADB_USER: community
-      MARIADB_PASSWORD: community1234
+      MARIADB_USER: changwoo
+      MARIADB_PASSWORD: changwoo1234
       TZ: Asia/Seoul
     ports:
       - "3307:3306"
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - db_data:/var/lib/mysql
     restart: unless-stopped
 
   redis:
@@ -34,13 +34,17 @@ services:
       - "8080:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/community
-      SPRING_DATASOURCE_USERNAME: community
-      SPRING_DATASORUCE_PASSWORD: community1234
+      SPRING_DATASOURCE_USERNAME: changwoo
+      SPRING_DATASOURCE_PASSWORD: changwoo1234
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
       SPRING_PROFILES_ACTIVE: docker
     restart: unless-stopped
 
 volumes:
-  mariadb_data:
+  db_data:
+    external: true
+    name: community_db_data
   redis_data:
+    external: true
+    name: community_redis_data
